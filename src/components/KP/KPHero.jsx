@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ArrowUpRight, Phone, ChevronDown } from 'lucide-react';
 
-const DESKTOP_FRAMES = 127;
-const MOBILE_FRAMES = 146;
+const DESKTOP_FRAMES = 120;
+const MOBILE_FRAMES = 120;
 
 export default function KPHero({ onStartProject }) {
   const canvasRef = useRef(null);
@@ -30,7 +30,7 @@ export default function KPHero({ onStartProject }) {
 
     for (let i = 1; i <= total; i++) {
       const img = new Image();
-      img.src = `${folder}/frame_${String(i).padStart(4, '0')}.jpg`;
+      img.src = `${folder}/ezgif-frame-${String(i).padStart(3, '0')}.jpg`;
       img.onload = () => {
         loadedCount++;
         setProgress(loadedCount / total);
@@ -135,10 +135,7 @@ export default function KPHero({ onStartProject }) {
 
         // APEX CONSTRUCTIONS watermark reveal overlay
         if (watermarkRef.current) {
-          const isDesktop = window.innerWidth > 768;
-          const showWatermark = isDesktop
-            ? frameIdx >= 114 && frameIdx < 126
-            : frameIdx >= 101 && frameIdx < 146;
+          const showWatermark = frameIdx >= 105 && frameIdx < 119;
           watermarkRef.current.style.opacity = showWatermark ? '1' : '0';
         }
 

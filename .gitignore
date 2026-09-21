@@ -32,3 +32,7 @@ compare_header.cjs
 get_*.cjs
 inspect_sections.mjs
 projects.completed.js
+
+# Old frames backup
+public/frames-old
+public/frames-mobile-old
