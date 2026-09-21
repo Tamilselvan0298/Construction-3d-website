@@ -1,0 +1,249 @@
+/* ==================================================
+   ARCHITECTURAL ENGINEERING DESIGN SYSTEM
+   KINETIX STRUCTURAL GROUP
+   ================================================== */
+
+:root {
+  --bg-primary: #0B0B0C;
+  --bg-surface: #121214;
+  --bg-elevated: #18181B;
+  --bg-card: rgba(18, 18, 20, 0.75);
+
+  --accent-bronze: #B88A44;
+  --accent-bronze-hover: #D49D4E;
+  --accent-bronze-dark: #7A5826;
+  --accent-bronze-glow: rgba(184, 138, 68, 0.18);
+
+  --accent-blue: #4E73DF;
+  --accent-blue-subtle: rgba(78, 115, 223, 0.15);
+
+  --text-primary: #F5F4F0;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --text-bronze: #D49D4E;
+
+  --border-subtle: rgba(245, 244, 240, 0.08);
+  --border-mid: rgba(245, 244, 240, 0.16);
+  --border-bronze: rgba(184, 138, 68, 0.28);
+  --border-blue: rgba(78, 115, 223, 0.3);
+
+  --font-display: 'Syne', sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Grotesk', monospace;
+
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+html {
+  font-size: 16px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* LENIS SMOOTH SCROLL INTEGRATION */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ARCHITECTURAL DRAFTING GRID PATTERN */
+.blueprint-grid {
+  background-image: 
+    linear-gradient(to right, rgba(245, 244, 240, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 244, 240, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.blueprint-grid-dense {
+  background-image: 
+    linear-gradient(to right, rgba(184, 138, 68, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(184, 138, 68, 0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* CUSTOM SCROLLBAR */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(184, 138, 68, 0.35);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-bronze);
+}
+
+::selection {
+  background-color: var(--accent-bronze);
+  color: #0B0B0C;
+}
+
+/* TECHNICAL CROSSHAIR COMPONENT */
+.tech-crosshair {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  opacity: 0.6;
+}
+
+.tech-crosshair::before,
+.tech-crosshair::after {
+  content: '';
+  position: absolute;
+  background-color: var(--accent-bronze);
+}
+
+.tech-crosshair::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.tech-crosshair::after {
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+/* ARCHITECTURAL BUTTONS */
+.btn-arch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  padding: 16px 36px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1px solid var(--border-bronze);
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s var(--ease-sharp);
+}
+
+.btn-arch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(184, 138, 68, 0.25), rgba(184, 138, 68, 0.05));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.btn-arch:hover {
+  border-color: var(--accent-bronze-hover);
+  color: #FFFFFF;
+  box-shadow: 0 0 30px var(--accent-bronze-glow);
+  transform: translateY(-2px);
+}
+
+.btn-arch:hover::before {
+  opacity: 1;
+}
+
+.btn-arch span, .btn-arch svg {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-arch-solid {
+  background: var(--accent-bronze);
+  color: #0B0B0C;
+  border-color: var(--accent-bronze);
+  font-weight: 700;
+}
+
+.btn-arch-solid:hover {
+  background: var(--accent-bronze-hover);
+  color: #0B0B0C;
+  border-color: var(--accent-bronze-hover);
+  box-shadow: 0 0 30px rgba(212, 157, 78, 0.4);
+}
+
+/* LINK WITH SUBTLE ARCHITECTURAL LINE */
+.arch-link {
+  position: relative;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.arch-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: var(--accent-bronze);
+  transition: width 0.3s var(--ease-sharp);
+}
+
+.arch-link:hover {
+  color: var(--text-primary);
+}
+
+.arch-link:hover::after {
+  width: 100%;
+}
+
+/* REDUCED MOTION SAFEGUARDS */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

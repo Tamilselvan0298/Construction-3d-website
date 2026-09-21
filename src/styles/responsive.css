@@ -1,0 +1,71 @@
+/* ==================================================
+   RESPONSIVE ARCHITECTURAL LAYOUT SYSTEM
+   Breakpoints: 1440px, 1280px, 1024px, 768px, 430px, 390px, 375px
+   ================================================== */
+
+.page-wrapper {
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+}
+
+.arch-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 6vw;
+  width: 100%;
+}
+
+.arch-section {
+  position: relative;
+  width: 100%;
+  padding: 140px 6vw;
+  box-sizing: border-box;
+}
+
+.arch-section-compact {
+  padding: 90px 6vw;
+}
+
+@media (max-width: 1280px) {
+  .arch-section {
+    padding: 120px 5vw;
+  }
+}
+
+@media (max-width: 1024px) {
+  .arch-section {
+    padding: 100px 28px;
+  }
+  .arch-hero-title {
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .arch-section {
+    padding: 75px 20px;
+  }
+  .arch-section-compact {
+    padding: 60px 20px;
+  }
+  .arch-hero-title {
+    font-size: clamp(2.4rem, 11vw, 4.2rem);
+    line-height: 0.95;
+  }
+  .btn-arch {
+    padding: 14px 26px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+}
+
+@media (max-width: 430px) {
+  .arch-section {
+    padding: 60px 16px;
+  }
+  .arch-hero-title {
+    font-size: clamp(2.1rem, 12vw, 3.4rem);
+  }
+}
