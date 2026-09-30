@@ -192,15 +192,15 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1790757305.6020634,
-    "seen": 1790757376.053991,
-    "ast_hash": "164c87c10955c808e3db4dd1bc8cfff9",
+    "mtime": 1790762580.6650338,
+    "seen": 1790762638.038708,
+    "ast_hash": "1619980527f4f3b4acd7d422838692ba",
     "semantic_hash": ""
   },
   "js/hero.js": {
-    "mtime": 1790756524.3214207,
-    "seen": 1790756646.532833,
-    "ast_hash": "14e3e2592c6a8cce8749adfafb2d9a2a",
+    "mtime": 1790762597.0817802,
+    "seen": 1790762638.0384717,
+    "ast_hash": "4468b0101973450804735e96c9f7a7a9",
     "semantic_hash": ""
   },
   "js/main.js": {

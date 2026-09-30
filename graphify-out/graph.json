@@ -457,7 +457,7 @@
       "file_type": "code",
       "norm_label": "getcurrenttargetframeidx()",
       "source_file": "js/hero.js",
-      "source_location": "L125"
+      "source_location": "L126"
     },
     {
       "id": "js_hero_handleresize",
@@ -493,7 +493,7 @@
       "file_type": "code",
       "norm_label": "updateprogress()",
       "source_file": "js/hero.js",
-      "source_location": "L129"
+      "source_location": "L130"
     },
     {
       "id": "src_app",
@@ -1589,7 +1589,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/hero.js",
-      "source_location": "L100",
+      "source_location": "L101",
       "weight": 1.0
     },
     {
@@ -1745,7 +1745,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/hero.js",
-      "source_location": "L125",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -1757,7 +1757,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/hero.js",
-      "source_location": "L129",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
@@ -4313,7 +4313,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "js/hero.js",
-      "source_location": "L182",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -4342,5 +4342,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "77544e42f9595369a93c18c16c9d8615a70e774e"
+  "built_at_commit": "edf25b9d69e23a031de57bff448d4571540ca277"
 }

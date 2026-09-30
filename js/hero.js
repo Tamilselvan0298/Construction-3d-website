@@ -23,7 +23,7 @@
   const images = [];
   let loadedCount = 0;
   let viewW = 0;
-  let viewH = 0;
+  const viewH = 600; // Fixed canvas display height to 600px
   let scrollRatio = 0;
   let isTicking = false;
 
@@ -76,12 +76,12 @@
 
   function handleResize() {
     const dpr = window.devicePixelRatio || 1;
-    viewW = window.innerWidth;
-    viewH = window.innerHeight;
+    viewW = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
     canvas.width = viewW * dpr;
     canvas.height = viewH * dpr;
     canvas.style.width = `${viewW}px`;
     canvas.style.height = `${viewH}px`;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
     const frameIdx = Math.min(total - 1, Math.floor(scrollRatio * total));
     drawFrame(frameIdx);
@@ -92,7 +92,8 @@
     isTicking = true;
     requestAnimationFrame(() => {
       const rect = container.getBoundingClientRect();
-      const scrollableDist = container.offsetHeight - window.innerHeight;
+      const stickyH = 600;
+      const scrollableDist = Math.max(1, container.offsetHeight - stickyH);
       const currentScrollRatio = Math.min(1, Math.max(0, -rect.top / scrollableDist));
       scrollRatio = currentScrollRatio;
 
