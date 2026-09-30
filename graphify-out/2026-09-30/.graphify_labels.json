@@ -1,22 +1,16 @@
 {
-  "0": "ref_fs",
+  "0": "ref_child_process",
   "1": "App.jsx",
   "2": "package.json",
-  "3": "lucide-react",
+  "3": "dependencies",
   "4": "HomePage.jsx",
-  "5": "react",
-  "6": "FAQ.jsx",
+  "5": "scripts",
   "7": "hero.js",
   "8": "devDependencies",
   "9": "APEX CONSTRUCTIONS - 3D Interactive Engineering Website",
-  "10": "AboutStudio.jsx",
   "11": ".oxlintrc.json",
-  "12": "ProjectsShowcase.jsx",
   "13": "render_all_pages_ssr.mjs",
-  "14": "ConstructionHero.jsx",
-  "15": "ConstructionProcess.jsx",
   "16": "rules/graphify.md",
   "17": "workflows/graphify.md",
-  "18": "main.js",
-  "19": "Services.jsx"
+  "18": "main.js"
 }

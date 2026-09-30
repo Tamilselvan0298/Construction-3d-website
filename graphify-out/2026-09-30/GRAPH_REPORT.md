@@ -1,93 +1,83 @@
 # Graph Report - 3d-website  (2026-09-30)
 
 ## Corpus Check
-- 90 files · ~2,429,634 words
+- 37 files · ~2,316,178 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: .css 8, (none) 3)
 
 ## Summary
-- 267 nodes · 485 edges · 20 communities (12 shown, 8 thin omitted)
+- 143 nodes · 245 edges · 14 communities (10 shown, 4 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `28dd75f7`
+- Built from commit: `ee4d6bf5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- ref_fs
+- ref_child_process
 - App.jsx
 - package.json
-- lucide-react
+- dependencies
 - HomePage.jsx
-- react
-- FAQ.jsx
+- scripts
 - hero.js
 - devDependencies
 - APEX CONSTRUCTIONS - 3D Interactive Engineering Website
-- AboutStudio.jsx
 - .oxlintrc.json
-- ProjectsShowcase.jsx
 - render_all_pages_ssr.mjs
-- ConstructionHero.jsx
-- ConstructionProcess.jsx
 - rules/graphify.md
 - workflows/graphify.md
-- Services.jsx
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 63 edges
-2. `lucide-react` - 39 edges
+1. `react` - 29 edges
+2. `lucide-react` - 21 edges
 3. `useRouter()` - 17 edges
-4. `attachMagnetic()` - 15 edges
-5. `gsap` - 11 edges
-6. `@react-three/fiber` - 9 edges
-7. `three` - 9 edges
-8. `scripts` - 5 edges
-9. `wrapHTML()` - 4 edges
-10. `APEX CONSTRUCTIONS - 3D Interactive Engineering Website` - 4 edges
+4. `scripts` - 6 edges
+5. `wrapHTML()` - 4 edges
+6. `APEX CONSTRUCTIONS - 3D Interactive Engineering Website` - 4 edges
+7. `Getting Started` - 4 edges
+8. `rules` - 3 edges
+9. `drawFrame()` - 3 edges
+10. `react-dom` - 3 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `ConstructionHero()` --calls--> `attachMagnetic()`  [EXTRACTED]
-  src/components/ConstructionExperience/ConstructionHero.jsx → src/animations/magnetic.js
 - `AppContent()` --calls--> `useRouter()`  [EXTRACTED]
   src/App.jsx → src/router/Router.jsx
-- `FinalCTA()` --calls--> `attachMagnetic()`  [EXTRACTED]
-  src/components/FinalCTA.jsx → src/animations/magnetic.js
-- `Header()` --calls--> `attachMagnetic()`  [EXTRACTED]
-  src/components/Header/Header.jsx → src/animations/magnetic.js
-- `Header()` --calls--> `attachMagnetic()`  [EXTRACTED]
-  src/components/Header.jsx → src/animations/magnetic.js
+- `KPFooter()` --calls--> `useRouter()`  [EXTRACTED]
+  src/components/KP/KPFooter.jsx → src/router/Router.jsx
+- `KPHeader()` --calls--> `useRouter()`  [EXTRACTED]
+  src/components/KP/KPHeader.jsx → src/router/Router.jsx
+- `AboutPage()` --calls--> `useRouter()`  [EXTRACTED]
+  src/pages/AboutPage.jsx → src/router/Router.jsx
+- `CompletedProjectsPage()` --calls--> `useRouter()`  [EXTRACTED]
+  src/pages/CompletedProjectsPage.jsx → src/router/Router.jsx
 
 ## Import Cycles
 - None detected.
 
-## Communities (20 total, 8 thin omitted)
-
-### Community 0 - "ref_fs"
-Cohesion: 0.06
-Nodes (25): ref_child_process, ref_fs, ref_path, sharp, pageConfigs, imagesToDownload, routes, html (+17 more)
+## Communities (14 total, 4 thin omitted)
 
 ### Community 1 - "App.jsx"
-Cohesion: 0.15
-Nodes (17): AppContent(), KPConsultationModal(), KPFloatingBar(), KPFooter(), KPHeader(), src_data_kpprojects, AboutPage(), CompletedProjectsPage() (+9 more)
+Cohesion: 0.18
+Nodes (17): react, AppContent(), KPFloatingBar(), KPFooter(), KPHeader(), src_data_kpprojects, AboutPage(), CompletedProjectsPage() (+9 more)
 
 ### Community 2 - "package.json"
-Cohesion: 0.07
-Nodes (27): dependencies, gsap, lenis, lucide-react, react, react-dom, @react-three/drei, @react-three/fiber (+19 more)
+Cohesion: 0.12
+Nodes (17): name, private, type, version, gsap, lenis, oxlint, @react-three/drei (+9 more)
 
-### Community 3 - "lucide-react"
-Cohesion: 0.13
-Nodes (12): gsap, lucide-react, attachMagnetic(), FinalCTA(), Header(), Header(), ProductDetails(), ProductScene() (+4 more)
+### Community 3 - "dependencies"
+Cohesion: 0.22
+Nodes (9): dependencies, gsap, lenis, lucide-react, react, react-dom, @react-three/drei, @react-three/fiber (+1 more)
 
 ### Community 4 - "HomePage.jsx"
-Cohesion: 0.12
-Nodes (12): KPCTA(), KPFAQ(), KPFounder(), KPHero(), KPMarquee(), KPOngoingProjects(), KPProcess(), KPProjects() (+4 more)
+Cohesion: 0.13
+Nodes (14): lucide-react, KPConsultationModal(), KPCTA(), KPFAQ(), KPFounder(), KPHero(), KPMarquee(), KPOngoingProjects() (+6 more)
 
-### Community 5 - "react"
-Cohesion: 0.16
-Nodes (12): react, @react-three/fiber, three, CameraController(), FacadeGroup(), FoundationGroup(), LandscapeGroup(), ProceduralBuilding() (+4 more)
+### Community 5 - "scripts"
+Cohesion: 0.33
+Nodes (6): scripts, build, build:html, dev, lint, preview
 
 ### Community 7 - "hero.js"
 Cohesion: 0.47
@@ -106,32 +96,26 @@ Cohesion: 0.33
 Nodes (5): plugins, rules, react/only-export-components, react/rules-of-hooks, $schema
 
 ### Community 13 - "render_all_pages_ssr.mjs"
-Cohesion: 0.23
-Nodes (10): react-dom, build(), getFooterHTML(), getHeaderHTML(), processContent(), subpages, wrapHTML(), App() (+2 more)
-
-### Community 14 - "ConstructionHero.jsx"
-Cohesion: 0.36
-Nodes (5): ConstructionHero(), ConstructionHUD(), TechnicalLabels(), constructionStages, BuildingScene()
+Cohesion: 0.19
+Nodes (12): ref_fs, ref_path, react-dom, build(), getFooterHTML(), getHeaderHTML(), processContent(), subpages (+4 more)
 
 ## Knowledge Gaps
-- **61 isolated node(s):** `$schema`, `plugins`, `react/rules-of-hooks`, `react/only-export-components`, `name` (+56 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 92 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **48 isolated node(s):** `$schema`, `plugins`, `react/rules-of-hooks`, `react/only-export-components`, `name` (+43 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 61 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `App.jsx`, `package.json`, `lucide-react`, `HomePage.jsx`, `FAQ.jsx`, `AboutStudio.jsx`, `ProjectsShowcase.jsx`, `render_all_pages_ssr.mjs`, `ConstructionHero.jsx`, `ConstructionProcess.jsx`, `Services.jsx`?**
-  _High betweenness centrality (0.511) - this node is a cross-community bridge._
-- **Why does `lucide-react` connect `lucide-react` to `App.jsx`, `package.json`, `HomePage.jsx`, `FAQ.jsx`, `AboutStudio.jsx`, `ProjectsShowcase.jsx`, `ConstructionHero.jsx`, `ConstructionProcess.jsx`, `Services.jsx`?**
-  _High betweenness centrality (0.099) - this node is a cross-community bridge._
+- **Why does `react` connect `App.jsx` to `package.json`, `HomePage.jsx`, `render_all_pages_ssr.mjs`?**
+  _High betweenness centrality (0.282) - this node is a cross-community bridge._
+- **Why does `lucide-react` connect `HomePage.jsx` to `App.jsx`, `package.json`?**
+  _High betweenness centrality (0.089) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `dependencies` to `package.json`?**
+  _High betweenness centrality (0.087) - this node is a cross-community bridge._
 - **What connects `$schema`, `plugins`, `react/rules-of-hooks` to the rest of the system?**
-  _61 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `ref_fs` be split into smaller, more focused modules?**
-  _Cohesion score 0.058029689608636977 - nodes in this community are weakly interconnected._
-- **Should `App.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.14623655913978495 - nodes in this community are weakly interconnected._
+  _48 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.06653225806451613 - nodes in this community are weakly interconnected._
-- **Should `lucide-react` be split into smaller, more focused modules?**
-  _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11695906432748537 - nodes in this community are weakly interconnected._
+- **Should `HomePage.jsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.1339031339031339 - nodes in this community are weakly interconnected._
