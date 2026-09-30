@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:html": "node scripts/render_all_pages_ssr.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },
