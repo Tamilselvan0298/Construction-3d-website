@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1790756589.2088742,
-    "seen": 1790756646.5336034,
-    "ast_hash": "d0968902822e2374edcb39ca2ae7d56d",
+    "mtime": 1790757305.6020634,
+    "seen": 1790757376.053991,
+    "ast_hash": "164c87c10955c808e3db4dd1bc8cfff9",
     "semantic_hash": ""
   },
   "public/assets/cta-banner.jpg": {
@@ -2214,57 +2214,57 @@
     "semantic_hash": ""
   },
   "about.html": {
-    "mtime": 1790753932.592904,
-    "seen": 1790754355.8801234,
-    "ast_hash": "8a5e3a58d96011f91e15b6af5f8eae9c",
+    "mtime": 1790757305.730865,
+    "seen": 1790757376.053955,
+    "ast_hash": "989629986885335db6342d3a9c7aeb1a",
     "semantic_hash": ""
   },
   "completed-projects.html": {
-    "mtime": 1790753993.227397,
-    "seen": 1790754355.8801305,
-    "ast_hash": "533c675acdad822f32a0440fb9f270ea",
+    "mtime": 1790757306.4273665,
+    "seen": 1790757376.0539637,
+    "ast_hash": "4faa43d2b132f81a00946df5834e4059",
     "semantic_hash": ""
   },
   "contact.html": {
-    "mtime": 1790754012.9572234,
-    "seen": 1790754355.8801365,
-    "ast_hash": "94ea93162cb0768358c062229c4420e6",
+    "mtime": 1790757306.6901822,
+    "seen": 1790757376.053974,
+    "ast_hash": "eff4d74f2bcfa1ec00fdda24e82e3bf4",
     "semantic_hash": ""
   },
   "gallery.html": {
-    "mtime": 1790754003.9360788,
-    "seen": 1790754355.8801425,
-    "ast_hash": "fa96a15725a177f8f7a6a81f3094afb8",
+    "mtime": 1790757306.5491564,
+    "seen": 1790757376.0539825,
+    "ast_hash": "44e839d7c31b39c0b3adda62e67b4e02",
     "semantic_hash": ""
   },
   "ongoing-projects.html": {
-    "mtime": 1790753968.388387,
-    "seen": 1790754355.8801594,
-    "ast_hash": "86ddbcab6a24606fe3c843f03680b9b0",
+    "mtime": 1790757306.3021061,
+    "seen": 1790757376.0540023,
+    "ast_hash": "68d12abf1a56d0a8c379f1a05388d782",
     "semantic_hash": ""
   },
   "privacy.html": {
-    "mtime": 1790754021.5682566,
-    "seen": 1790754355.880166,
-    "ast_hash": "23a52a7cde5859f9ecb96c2b1e83fb44",
+    "mtime": 1790757306.881574,
+    "seen": 1790757376.0540094,
+    "ast_hash": "f8d2aa7b4e4b77588d46dc57f4217a4f",
     "semantic_hash": ""
   },
   "services.html": {
-    "mtime": 1790753945.4752338,
-    "seen": 1790754355.880172,
-    "ast_hash": "0c34804dbfc26fad8e334d14537f17d8",
+    "mtime": 1790757306.1823208,
+    "seen": 1790757376.0540154,
+    "ast_hash": "75b34a5af19b85ad969e86bfdc0cac10",
     "semantic_hash": ""
   },
   "strengths-services.html": {
-    "mtime": 1790753945.4336133,
-    "seen": 1790754355.8801777,
-    "ast_hash": "0c34804dbfc26fad8e334d14537f17d8",
+    "mtime": 1790757305.8493962,
+    "seen": 1790757376.0540223,
+    "ast_hash": "75b34a5af19b85ad969e86bfdc0cac10",
     "semantic_hash": ""
   },
   "terms.html": {
-    "mtime": 1790754032.579978,
-    "seen": 1790754355.8801837,
-    "ast_hash": "d8e89c39544b596e7371f26f6370689d",
+    "mtime": 1790757307.0191524,
+    "seen": 1790757376.054029,
+    "ast_hash": "e95e7de42c95177a251d41e7cdc090d9",
     "semantic_hash": ""
   },
   "favicon.svg": {
@@ -3897,6 +3897,36 @@
     "mtime": 1789893392.229244,
     "seen": 1790754355.8816743,
     "ast_hash": "e663914854a2c31e375501e99a76a2c3",
+    "semantic_hash": ""
+  },
+  "scripts/build_all_pages.js": {
+    "mtime": 1790757300.0742228,
+    "seen": 1790757376.0531833,
+    "ast_hash": "3ad5c9b6a8593cc24b0ad594555ed834",
+    "semantic_hash": ""
+  },
+  "assets/cta-banner.jpg": {
+    "mtime": 1789894511.2661853,
+    "seen": 1790757376.0540354,
+    "ast_hash": "664426b36a0aab60de6301cf78645751",
+    "semantic_hash": ""
+  },
+  "assets/engineer-qa.png": {
+    "mtime": 1789893223.2214222,
+    "seen": 1790757376.0540426,
+    "ast_hash": "6c619ada86f2d74a1650306cecc4254d",
+    "semantic_hash": ""
+  },
+  "assets/logo.png": {
+    "mtime": 1790756831.9031441,
+    "seen": 1790757376.0540485,
+    "ast_hash": "8cc21d15d207ae95871858277f98efc6",
+    "semantic_hash": ""
+  },
+  "assets/logo.svg": {
+    "mtime": 1789907410.4303308,
+    "seen": 1790757376.0540562,
+    "ast_hash": "5ad27db94fba88e753ecd34f85b62c92",
     "semantic_hash": ""
   }
 }

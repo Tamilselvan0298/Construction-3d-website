@@ -162,30 +162,127 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 6. GALLERY & PROJECT CATEGORY FILTERING (if applicable)
-  const filterButtons = document.querySelectorAll('[data-filter]');
-  const filterItems = document.querySelectorAll('[data-category]');
+  // 6. GALLERY & PROJECT CATEGORY FILTERING
+  const filterContainers = document.querySelectorAll('.flex.flex-wrap.gap-2\\.5');
+  filterContainers.forEach(container => {
+    const buttons = container.querySelectorAll('button');
+    if (!buttons.length) return;
 
-  if (filterButtons.length && filterItems.length) {
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const category = btn.getAttribute('data-filter');
-        filterButtons.forEach(b => {
-          b.classList.remove('bg-blue', 'text-white');
-          b.classList.add('bg-white', 'text-ink-2');
+    const firstText = buttons[0].textContent.trim();
+    if (firstText !== 'All') return;
+
+    const parentSection = container.closest('section');
+    const nextSection = parentSection ? parentSection.nextElementSibling : null;
+    const grid = nextSection ? nextSection.querySelector('.grid') : null;
+    if (!grid) return;
+
+    const cards = grid.children;
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const selectedCat = btn.textContent.trim();
+
+        // Update active styles on buttons
+        buttons.forEach(b => {
+          b.className = 'h-10 rounded-full px-5 text-xs font-medium transition-all cursor-pointer border border-line bg-paper text-ink hover:border-ink/40';
         });
-        btn.classList.add('bg-blue', 'text-white');
-        btn.classList.remove('bg-white', 'text-ink-2');
+        btn.className = 'h-10 rounded-full px-5 text-xs font-medium transition-all cursor-pointer border-ink bg-ink text-white shadow-sm';
 
-        filterItems.forEach(item => {
-          const itemCat = item.getAttribute('data-category');
-          if (category === 'all' || itemCat === category) {
-            item.style.display = '';
+        // Filter cards
+        Array.from(cards).forEach(card => {
+          if (selectedCat === 'All') {
+            card.style.display = '';
+            return;
+          }
+          const badge = card.querySelector('.rounded-full');
+          const badgeText = badge ? badge.textContent.trim() : '';
+          if (badgeText.toLowerCase() === selectedCat.toLowerCase()) {
+            card.style.display = '';
           } else {
-            item.style.display = 'none';
+            card.style.display = 'none';
           }
         });
       });
+    });
+  });
+
+  // 7. GALLERY LIGHTBOX MODAL
+  const galleryGrid = document.querySelector('.grid.gap-6.sm\\:grid-cols-2.lg\\:grid-cols-3');
+  if (galleryGrid) {
+    const lightbox = document.createElement('div');
+    lightbox.id = 'galleryLightbox';
+    lightbox.className = 'hidden fixed inset-0 z-[110] flex items-center justify-center bg-ink/90 backdrop-blur-md p-4';
+    lightbox.innerHTML = `
+      <div class="relative max-w-4xl w-full overflow-hidden rounded-[28px] border border-white/20 bg-ink shadow-2xl" onclick="event.stopPropagation()">
+        <button id="closeLightboxBtn" type="button" class="absolute top-4 right-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-white/20 text-white backdrop-blur transition hover:bg-white hover:text-ink cursor-pointer border-none" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+        <img id="lightboxImg" src="" alt="" class="max-h-[75vh] w-full object-contain bg-black">
+        <div class="p-6 text-white border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <span id="lightboxCategory" class="rounded-full bg-white/10 px-3 py-0.5 text-xs font-mono text-amber"></span>
+            <h3 id="lightboxTitle" class="mt-2 font-display text-2xl font-medium"></h3>
+            <p id="lightboxLocation" class="text-xs text-white/70 mt-1 flex items-center gap-1"></p>
+          </div>
+          <button type="button" class="open-consultation-btn inline-flex h-11 items-center gap-2 rounded-full bg-white px-6 text-sm font-medium text-ink transition hover:bg-paper-2 cursor-pointer border-none">
+            <span>Inquire About Similar Build</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+
+    const lbImg = lightbox.querySelector('#lightboxImg');
+    const lbCat = lightbox.querySelector('#lightboxCategory');
+    const lbTitle = lightbox.querySelector('#lightboxTitle');
+    const lbLoc = lightbox.querySelector('#lightboxLocation');
+    const closeLb = lightbox.querySelector('#closeLightboxBtn');
+
+    function closeLightbox() {
+      lightbox.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    if (closeLb) closeLb.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', closeLightbox);
+
+    const lbConsultBtn = lightbox.querySelector('.open-consultation-btn');
+    if (lbConsultBtn) {
+      lbConsultBtn.addEventListener('click', () => {
+        closeLightbox();
+        openModal();
+      });
+    }
+
+    galleryGrid.querySelectorAll('.group').forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        const cat = item.querySelector('.rounded-full');
+        const title = item.querySelector('h3');
+        const loc = item.querySelector('.mt-2 span');
+
+        if (img && lbImg) lbImg.src = img.src;
+        if (cat && lbCat) lbCat.textContent = cat.textContent.trim();
+        if (title && lbTitle) lbTitle.textContent = title.textContent.trim();
+        if (loc && lbLoc) {
+          lbLoc.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg> ${loc.textContent.trim()}`;
+        }
+
+        lightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+  }
+
+  // 8. CONTACT FORM SUBMISSION
+  const contactForm = document.querySelector('main form');
+  if (contactForm && (window.location.pathname.includes('contact') || window.location.href.includes('contact'))) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you for contacting APEX CONSTRUCTIONS! A senior civil engineer will review your inquiry and respond within one business day.');
+      contactForm.reset();
     });
   }
 });

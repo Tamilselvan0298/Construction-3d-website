@@ -1,56 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms & Conditions | APEX CONSTRUCTIONS</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ink: '#0B0F19',
-            'ink-2': '#1E293B',
-            'muted-ink': '#64748B',
-            paper: '#FFFFFF',
-            'paper-2': '#F8FAFC',
-            'paper-3': '#F1F5F9',
-            line: '#E2E8F0',
-            blue: '#D97706',
-            amber: '#F59E0B',
-            orange: '#EA580C',
-            green: '#EA580C'
-          },
-          fontFamily: {
-            display: ['Fraunces', 'serif'],
-            sans: ['"Inter Tight"', 'sans-serif']
-          }
-        }
-      }
-    };
-  </script>
-</head>
-<body class="bg-paper text-ink font-sans antialiased selection:bg-blue selection:text-white">
-  <div class="min-h-screen bg-paper text-ink selection:bg-blue selection:text-white">
-    <!-- AMBIENT BACKGROUND GLOW & BLUEPRINT TEXTURE -->
-    <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div class="absolute inset-0" style="background: radial-gradient(ellipse at top, #faf7f2 0%, #ffffff 45%, #fdfcf9 100%);"></div>
-      <div class="absolute -inset-[10%] blueprint-bg [mask-image:radial-gradient(ellipse_60%_55%_at_50%_40%,black_40%,transparent_85%)] will-change-transform" style="opacity: 0.5;"></div>
-      <div class="absolute -inset-[10%] opacity-[0.05] will-change-transform" style="background-image: repeating-linear-gradient(135deg, #111827 0 1px, transparent 1px 14px);"></div>
-      <div class="absolute -left-[10%] top-[8%] h-[520px] w-[520px] rounded-full blur-[140px] will-change-transform" style="background: radial-gradient(circle at 35% 35%, rgba(245,158,11,0.22), transparent 65%);"></div>
-      <div class="absolute right-[-8%] top-[32%] h-[600px] w-[600px] rounded-full blur-[150px] will-change-transform" style="background: radial-gradient(circle at 60% 40%, rgba(234,88,12,0.18), transparent 65%);"></div>
-      <div class="absolute left-[28%] bottom-[-10%] h-[560px] w-[560px] rounded-full blur-[160px] will-change-transform" style="background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.18), rgba(234,88,12,0.14) 45%, transparent 70%);"></div>
-      <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/70 to-transparent"></div>
-      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white/60 to-transparent"></div>
-    </div>
+import fs from 'fs';
+import path from 'path';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import { createServer } from 'vite';
 
-    <!-- PERSISTENT FIXED HEADER -->
+// Mock browser globals for SSR
+global.window = {
+  location: { pathname: '/' },
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  scrollTo: () => {},
+  innerWidth: 1200,
+  innerHeight: 800,
+};
+global.document = {
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  createElement: () => ({ getContext: () => null }),
+};
+
+function getHeaderHTML(activePage) {
+  const isHome = activePage === 'home';
+  const isAbout = activePage === 'about';
+  const isServices = activePage === 'services';
+  const isProjects = activePage === 'projects';
+  const isOngoing = activePage === 'ongoing';
+  const isCompleted = activePage === 'completed';
+  const isGallery = activePage === 'gallery';
+  const isContact = activePage === 'contact';
+
+  const homeActive = isHome ? 'text-ink' : 'text-ink-2 hover:text-ink';
+  const homeInd = isHome ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100';
+
+  const aboutActive = isAbout ? 'text-ink' : 'text-ink-2 hover:text-ink';
+  const aboutInd = isAbout ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100';
+
+  const servicesActive = isServices ? 'text-ink' : 'text-ink-2 hover:text-ink';
+  const servicesInd = isServices ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100';
+
+  const projectsActive = (isProjects || isOngoing || isCompleted) ? 'text-ink' : 'text-ink-2 hover:text-ink';
+  const projectsInd = (isProjects || isOngoing || isCompleted) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100';
+
+  const galleryActive = isGallery ? 'text-ink' : 'text-ink-2 hover:text-ink';
+  const galleryInd = isGallery ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100';
+
+  const contactActive = isContact ? 'text-ink' : 'text-ink-2 hover:text-ink';
+  const contactInd = isContact ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100';
+
+  const mobHomeActive = isHome ? 'text-blue' : 'text-ink';
+  const mobAboutActive = isAbout ? 'text-blue' : 'text-ink';
+  const mobServicesActive = isServices ? 'text-blue' : 'text-ink';
+  const mobOngoingActive = isOngoing ? 'text-blue font-semibold' : 'text-ink-2 hover:text-ink';
+  const mobCompletedActive = isCompleted ? 'text-blue font-semibold' : 'text-ink-2 hover:text-ink';
+  const mobGalleryActive = isGallery ? 'text-blue' : 'text-ink';
+  const mobContactActive = isContact ? 'text-blue' : 'text-ink';
+
+  return `<!-- PERSISTENT FIXED HEADER -->
 <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300 border-transparent bg-white/70 backdrop-blur-md">
   <!-- TOP OPERATIONAL TELEMETRY RIBBON -->
   <div class="hidden md:block bg-ink text-white/70 py-1.5 border-b border-white/10 font-mono text-[11px]">
@@ -76,29 +81,29 @@
     <!-- DESKTOP NAVIGATION -->
     <nav class="hidden items-center gap-1 xl:gap-2.5 lg:flex">
       <!-- HOME -->
-      <a href="index.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap text-ink-2 hover:text-ink">
+      <a href="index.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap ${homeActive}">
         <span>Home</span>
-        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 scale-x-0 group-hover:scale-x-100"></span>
+        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 ${homeInd}"></span>
       </a>
 
       <!-- ABOUT US -->
-      <a href="about.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap text-ink-2 hover:text-ink">
+      <a href="about.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap ${aboutActive}">
         <span>About Us</span>
-        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 scale-x-0 group-hover:scale-x-100"></span>
+        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 ${aboutInd}"></span>
       </a>
 
       <!-- STRENGTHS & SERVICES -->
-      <a href="strengths-services.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap text-ink-2 hover:text-ink">
+      <a href="strengths-services.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap ${servicesActive}">
         <span>Strengths &amp; Services</span>
-        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 scale-x-0 group-hover:scale-x-100"></span>
+        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 ${servicesInd}"></span>
       </a>
 
       <!-- PROJECTS WITH DROPDOWN -->
       <div id="projectsDropdownContainer" class="relative group">
-        <a href="completed-projects.html" class="group relative inline-flex items-center gap-1 px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap text-ink-2 hover:text-ink">
+        <a href="completed-projects.html" class="group relative inline-flex items-center gap-1 px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap ${projectsActive}">
           <span>Projects</span>
           <svg id="projectsChevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down h-3.5 w-3.5 transition-transform duration-300"><path d="m6 9 6 6 6-6"></path></svg>
-          <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 scale-x-0 group-hover:scale-x-100"></span>
+          <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 ${projectsInd}"></span>
         </a>
 
         <!-- DROPDOWN MENU -->
@@ -114,15 +119,15 @@
       </div>
 
       <!-- GALLERY -->
-      <a href="gallery.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap text-ink-2 hover:text-ink">
+      <a href="gallery.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap ${galleryActive}">
         <span>Gallery</span>
-        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 scale-x-0 group-hover:scale-x-100"></span>
+        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 ${galleryInd}"></span>
       </a>
 
       <!-- CONTACT US -->
-      <a href="contact.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap text-ink-2 hover:text-ink">
+      <a href="contact.html" class="group relative px-3 py-1.5 text-[14px] font-medium transition-colors no-underline whitespace-nowrap ${contactActive}">
         <span>Contact Us</span>
-        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 scale-x-0 group-hover:scale-x-100"></span>
+        <span class="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gradient-to-r from-blue to-green transition-transform duration-500 ${contactInd}"></span>
       </a>
     </nav>
 
@@ -145,34 +150,31 @@
   <!-- MOBILE MENU DRAWER -->
   <div id="mobileMenuDrawer" class="hidden border-b border-line bg-white px-6 py-6 lg:hidden animate-in slide-in-from-top-4 duration-300">
     <div class="flex flex-col gap-2">
-      <a href="index.html" class="text-left text-base font-medium py-2.5 no-underline text-ink">Home</a>
-      <a href="about.html" class="text-left text-base font-medium py-2.5 no-underline text-ink">About Us</a>
-      <a href="strengths-services.html" class="text-left text-base font-medium py-2.5 no-underline text-ink">Strengths &amp; Services</a>
+      <a href="index.html" class="text-left text-base font-medium py-2.5 no-underline ${mobHomeActive}">Home</a>
+      <a href="about.html" class="text-left text-base font-medium py-2.5 no-underline ${mobAboutActive}">About Us</a>
+      <a href="strengths-services.html" class="text-left text-base font-medium py-2.5 no-underline ${mobServicesActive}">Strengths &amp; Services</a>
       <div class="py-2 border-y border-line/60 my-1">
         <div class="text-xs uppercase tracking-wider text-muted-ink font-semibold mb-2">Projects</div>
         <div class="flex flex-col gap-1.5 pl-3">
-          <a href="ongoing-projects.html" class="text-sm font-medium py-1.5 no-underline flex items-center justify-between text-ink-2 hover:text-ink">
+          <a href="ongoing-projects.html" class="text-sm font-medium py-1.5 no-underline flex items-center justify-between ${mobOngoingActive}">
             <span>Ongoing Projects</span>
             <span class="h-2 w-2 animate-pulse rounded-full bg-green"></span>
           </a>
-          <a href="completed-projects.html" class="text-sm font-medium py-1.5 no-underline text-ink-2 hover:text-ink">Completed Projects</a>
+          <a href="completed-projects.html" class="text-sm font-medium py-1.5 no-underline ${mobCompletedActive}">Completed Projects</a>
         </div>
       </div>
-      <a href="gallery.html" class="text-left text-base font-medium py-2.5 no-underline text-ink">Gallery</a>
-      <a href="contact.html" class="text-left text-base font-medium py-2.5 no-underline text-ink">Contact Us</a>
+      <a href="gallery.html" class="text-left text-base font-medium py-2.5 no-underline ${mobGalleryActive}">Gallery</a>
+      <a href="contact.html" class="text-left text-base font-medium py-2.5 no-underline ${mobContactActive}">Contact Us</a>
       <button type="button" class="open-consultation-btn mt-4 inline-flex h-12 w-full items-center justify-center rounded-full bg-gradient-to-r from-amber to-orange text-sm font-bold text-ink cursor-pointer border-none shadow-sm">
         Get Free Consultation
       </button>
     </div>
   </div>
-</header>
+</header>`;
+}
 
-    <!-- DYNAMIC PAGE VIEW -->
-    <main id="main-content" class="relative min-h-screen">
-      <div class="pt-24 md:pt-28 pb-20"><section class="container-x py-12 md:py-20"><div class="max-w-3xl"><div class="text-[11px] uppercase tracking-[0.22em] text-blue font-semibold">/ Legal &amp; Policy</div><h1 class="mt-5 font-display text-display-1 leading-[1] tracking-[-0.04em] text-ink">Terms &amp; <em class="italic gradient-text">Conditions.</em></h1><p class="mt-4 text-sm text-muted-ink">Last updated: January 2026</p></div><div class="mt-12 max-w-3xl space-y-8 text-[15.5px] leading-[1.8] text-ink-2 border-t border-line pt-10"><div><h2 class="font-display text-2xl text-ink font-medium">1. Agreement to Terms</h2><p class="mt-3">By accessing and utilizing the website and engineering portal of APEX CONSTRUCTIONS Engineering &amp; Infrastructure, you agree to abide by the terms and conditions outlined herein. If you do not agree with any provision, you may not use our services or website resources.</p></div><div><h2 class="font-display text-2xl text-ink font-medium">2. Engineering Information &amp; Estimates</h2><p class="mt-3">All architectural renderings, structural guidelines, and cost estimates presented on this website are for informational and planning purposes. Formal engineering commitments, pricing schedules, and completion dates are governed strictly by executed formal construction contracts.</p></div><div><h2 class="font-display text-2xl text-ink font-medium">3. Intellectual Property</h2><p class="mt-3">All project photography, digital renderings, layout drawings, brand trademarks, and editorial copy are the intellectual property of APEX CONSTRUCTIONS Engineering &amp; Infrastructure. Reproduction without written consent is strictly prohibited.</p></div><div><h2 class="font-display text-2xl text-ink font-medium">4. Standard of Construction &amp; Warranty</h2><p class="mt-3">Projects contracted through APEX CONSTRUCTIONS comply with Indian Standard Codes (IS Codes), national building codes, and municipal regulatory guidelines. Specific warranty terms, including structural warranties and 12-month defect-liability provisions, are documented in formal project agreements.</p></div><div><h2 class="font-display text-2xl text-ink font-medium">5. Jurisdiction</h2><p class="mt-3">Any dispute or claim arising from the use of this website or initial engineering inquiries shall be subject to the exclusive jurisdiction of the competent courts in Tiruchirappalli (Trichy), Tamil Nadu, India.</p></div></div></section></div>
-    </main>
-
-    <!-- PERSISTENT FOOTER -->
+function getFooterHTML() {
+  return `<!-- PERSISTENT FOOTER -->
 <footer class="relative overflow-hidden bg-ink text-white">
   <div class="blueprint-bg pointer-events-none absolute inset-0 opacity-[0.06]"></div>
   <div class="container-x relative pt-24 pb-10">
@@ -242,9 +244,10 @@
       APEX CONSTRUCTIONS
     </div>
   </div>
-</footer>
+</footer>`;
+}
 
-    <!-- FLOATING ACTION BUTTONS -->
+const floatingActionButtons = `<!-- FLOATING ACTION BUTTONS -->
 <div class="fixed bottom-24 right-4 lg:bottom-6 lg:right-6 z-50 flex flex-col gap-3 lg:gap-4 pointer-events-none">
   <a href="https://wa.me/918668179136" target="_blank" rel="noopener noreferrer" class="pointer-events-auto group relative flex h-12 w-12 lg:h-14 lg:w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_8px_30px_rgba(37,211,102,0.3)]" aria-label="Chat on WhatsApp">
     <svg viewBox="0 0 448 512" fill="currentColor" class="h-6 w-6 lg:h-7 lg:w-7"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157.1zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.1 2.8 3.4 35.1 53.6 85 75.1 49.9 21.6 49.9 14.4 58.9 13.5 9-1 29.1-11.9 33.2-23.4 4.1-11.6 4.1-21.5 2.8-23.5-1.2-2.1-4.8-3.4-10.3-6.1z"></path></svg>
@@ -252,9 +255,9 @@
   <a href="tel:+918610836498" class="pointer-events-auto group relative flex h-12 w-12 lg:h-14 lg:w-14 items-center justify-center rounded-full bg-blue text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_8px_30px_rgba(35,135,219,0.3)]" aria-label="Call Us">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone h-5 w-5 lg:h-6 lg:w-6"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
   </a>
-</div>
+</div>`;
 
-    <!-- CONSULTATION MODAL DIALOG -->
+const modalHTML = `<!-- CONSULTATION MODAL DIALOG -->
 <div id="consultationModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/75 p-4 backdrop-blur-md">
   <div class="relative w-full max-w-[560px] rounded-[24px] bg-white p-6 md:p-9 shadow-2xl">
     <button id="closeConsultationBtn" type="button" class="absolute right-5 top-5 p-1 text-muted-ink hover:text-ink transition-colors cursor-pointer bg-transparent border-none" aria-label="Close">
@@ -306,10 +309,179 @@
       </form>
     </div>
   </div>
-</div>
+</div>`;
+
+function wrapHTML({ title, active, content, isHome }) {
+  const headerHTML = getHeaderHTML(active);
+  const footerHTML = getFooterHTML();
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title}</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#0B0F19',
+            'ink-2': '#1E293B',
+            'muted-ink': '#64748B',
+            paper: '#FFFFFF',
+            'paper-2': '#F8FAFC',
+            'paper-3': '#F1F5F9',
+            line: '#E2E8F0',
+            blue: '#D97706',
+            amber: '#F59E0B',
+            orange: '#EA580C',
+            green: '#EA580C'
+          },
+          fontFamily: {
+            display: ['Fraunces', 'serif'],
+            sans: ['"Inter Tight"', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-paper text-ink font-sans antialiased selection:bg-blue selection:text-white">
+  <div class="min-h-screen bg-paper text-ink selection:bg-blue selection:text-white">
+    <!-- AMBIENT BACKGROUND GLOW & BLUEPRINT TEXTURE -->
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div class="absolute inset-0" style="background: radial-gradient(ellipse at top, #faf7f2 0%, #ffffff 45%, #fdfcf9 100%);"></div>
+      <div class="absolute -inset-[10%] blueprint-bg [mask-image:radial-gradient(ellipse_60%_55%_at_50%_40%,black_40%,transparent_85%)] will-change-transform" style="opacity: 0.5;"></div>
+      <div class="absolute -inset-[10%] opacity-[0.05] will-change-transform" style="background-image: repeating-linear-gradient(135deg, #111827 0 1px, transparent 1px 14px);"></div>
+      <div class="absolute -left-[10%] top-[8%] h-[520px] w-[520px] rounded-full blur-[140px] will-change-transform" style="background: radial-gradient(circle at 35% 35%, rgba(245,158,11,0.22), transparent 65%);"></div>
+      <div class="absolute right-[-8%] top-[32%] h-[600px] w-[600px] rounded-full blur-[150px] will-change-transform" style="background: radial-gradient(circle at 60% 40%, rgba(234,88,12,0.18), transparent 65%);"></div>
+      <div class="absolute left-[28%] bottom-[-10%] h-[560px] w-[560px] rounded-full blur-[160px] will-change-transform" style="background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.18), rgba(234,88,12,0.14) 45%, transparent 70%);"></div>
+      <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/70 to-transparent"></div>
+      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white/60 to-transparent"></div>
+    </div>
+
+    ${headerHTML}
+
+    <!-- DYNAMIC PAGE VIEW -->
+    <main id="main-content" class="relative min-h-screen">
+      ${content}
+    </main>
+
+    ${footerHTML}
+
+    ${floatingActionButtons}
+
+    ${modalHTML}
   </div>
 
   <script src="js/main.js"></script>
-  
+  ${isHome ? '<script src="js/hero.js"></script>' : ''}
 </body>
-</html>
+</html>`;
+}
+
+function processContent(html) {
+  // Convert buttons with onClick navigate to real anchor links
+  html = html.replace(/<button[^>]*onClick="[^"]*navigate\('([^']*)'\)"[^>]*>([\s\S]*?)<\/button>/gi, (m, dest, inner) => {
+    let href = 'index.html';
+    if (dest === '/about') href = 'about.html';
+    else if (dest === '/strengths-services') href = 'strengths-services.html';
+    else if (dest === '/projects/ongoing') href = 'ongoing-projects.html';
+    else if (dest === '/projects/completed' || dest === '/projects') href = 'completed-projects.html';
+    else if (dest === '/gallery') href = 'gallery.html';
+    else if (dest === '/contact') href = 'contact.html';
+    return `<a href="${href}" class="no-underline inline-block">${inner}</a>`;
+  });
+
+  // Ensure all buttons with "Contact Site Office" link to contact.html
+  html = html.replace(/<button([^>]*)>Contact Site Office<\/button>/gi, '<a href="contact.html" class="inline-flex h-14 items-center rounded-full border border-white/30 px-8 text-[15px] font-medium text-white transition-colors hover:border-white no-underline bg-transparent">Contact Site Office</a>');
+
+  // Ensure all Consultation buttons trigger open-consultation-btn
+  html = html.replace(/<button((?:(?!<\/button)[\s\S])*?)>((?:(?!<button)[\s\S])*?)(Arrange a Site Walkthrough|Start a project|Start Your Project|Consult an Engineering Lead|Get Free Consultation|Schedule Consultation|Get in Touch|Inquire About This Build|Inquire About Similar Build)((?:(?!<\/button)[\s\S])*?)<\/button>/gi,
+    (match, attrs, pre, text, post) => {
+      if (!attrs.includes('open-consultation-btn')) {
+        if (/class="([^"]*)"/i.test(attrs)) {
+          attrs = attrs.replace(/class="([^"]*)"/i, 'class="$1 open-consultation-btn"');
+        } else {
+          attrs += ' class="open-consultation-btn"';
+        }
+      }
+      return `<button${attrs}>${pre}${text}${post}</button>`;
+    }
+  );
+
+  // Fix absolute asset paths to relative paths for complete portability
+  html = html.replace(/(href|src)=["']\/(assets\/[^"']+)["']/gi, '$1="$2"');
+  html = html.replace(/(href|src)=["']\/(projects\/[^"']+)["']/gi, '$1="$2"');
+  html = html.replace(/(href|src)=["']\/(images\/[^"']+)["']/gi, '$1="$2"');
+  html = html.replace(/(href|src)=["']\/(logos\/[^"']+)["']/gi, '$1="$2"');
+  html = html.replace(/(href|src)=["']\/(css\/[^"']+)["']/gi, '$1="$2"');
+  html = html.replace(/(href|src)=["']\/(js\/[^"']+)["']/gi, '$1="$2"');
+  html = html.replace(/(href|src)=["']\/(logo\.png)["']/gi, '$1="$2"');
+  html = html.replace(/(href|src)=["']\/(profile\.webp)["']/gi, '$1="$2"');
+  html = html.replace(/(href|src)=["']\/(favicon\.svg)["']/gi, '$1="$2"');
+
+  return html;
+}
+
+const subpages = [
+  { file: 'about.html', path: '/src/pages/AboutPage.jsx', active: 'about', title: 'About Us | APEX CONSTRUCTIONS' },
+  { file: 'strengths-services.html', path: '/src/pages/StrengthsServicesPage.jsx', active: 'services', title: 'Strengths & Services | APEX CONSTRUCTIONS' },
+  { file: 'services.html', path: '/src/pages/StrengthsServicesPage.jsx', active: 'services', title: 'Services | APEX CONSTRUCTIONS' },
+  { file: 'ongoing-projects.html', path: '/src/pages/OngoingProjectsPage.jsx', active: 'ongoing', title: 'Ongoing Projects | APEX CONSTRUCTIONS' },
+  { file: 'completed-projects.html', path: '/src/pages/CompletedProjectsPage.jsx', active: 'completed', title: 'Completed Projects | APEX CONSTRUCTIONS' },
+  { file: 'gallery.html', path: '/src/pages/GalleryPage.jsx', active: 'gallery', title: 'Gallery | APEX CONSTRUCTIONS' },
+  { file: 'contact.html', path: '/src/pages/ContactPage.jsx', active: 'contact', title: 'Contact Us | APEX CONSTRUCTIONS' },
+  { file: 'privacy.html', path: '/src/pages/PrivacyPage.jsx', active: 'none', title: 'Privacy Policy | APEX CONSTRUCTIONS' },
+  { file: 'terms.html', path: '/src/pages/TermsPage.jsx', active: 'none', title: 'Terms & Conditions | APEX CONSTRUCTIONS' },
+];
+
+async function build() {
+  console.log('Starting full SSR render for all unique pages...');
+  const server = await createServer({
+    server: { middlewareMode: true },
+    appType: 'custom',
+  });
+
+  const { RouterProvider } = await server.ssrLoadModule('/src/router/Router.jsx');
+
+  for (const page of subpages) {
+    try {
+      console.log(`Rendering ${page.file} from ${page.path}...`);
+      const PageMod = await server.ssrLoadModule(page.path);
+      const Component = PageMod.default;
+      let renderedContent = ReactDOMServer.renderToString(
+        React.createElement(RouterProvider, null, React.createElement(Component, { onOpenConsultation: () => {} }))
+      );
+
+      renderedContent = processContent(renderedContent);
+
+      const fullHTML = wrapHTML({
+        title: page.title,
+        active: page.active,
+        content: renderedContent,
+        isHome: false,
+      });
+
+      fs.writeFileSync(page.file, fullHTML, 'utf-8');
+      if (fs.existsSync('dist')) {
+        fs.writeFileSync(path.join('dist', page.file), fullHTML, 'utf-8');
+      }
+      console.log(`Successfully generated ${page.file} (${fullHTML.length} bytes)`);
+    } catch (err) {
+      console.error(`Error generating ${page.file}:`, err);
+    }
+  }
+
+  await server.close();
+  console.log('All individual pages successfully generated with unique designs!');
+}
+
+build();
