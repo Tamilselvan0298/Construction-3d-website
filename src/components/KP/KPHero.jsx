@@ -21,8 +21,8 @@ export default function KPHero({ onStartProject }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const isMobile = window.innerWidth <= 768;
-    const total = isMobile ? MOBILE_FRAMES : DESKTOP_FRAMES;
-    const folder = isMobile ? '/frames-mobile' : '/frames';
+    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+    const folder = isMobile ? `${base}frames-mobile` : `${base}frames`;
     totalFramesRef.current = total;
 
     let loadedCount = 0;
