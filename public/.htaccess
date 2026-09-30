@@ -1,16 +1,28 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
 
-  # Return 404 directly for missing static assets rather than serving index.html
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|webp|svg|ico|css|js|woff|woff2|ttf|eot|map)$ [NC]
-  RewriteRule ^ - [R=404,L]
+  # If file exists, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
 
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_FILENAME} !-l
-  RewriteRule . index.html [L]
+  # If directory exists, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Clean URL aliases
+  RewriteRule ^projects/ongoing/?$ ongoing-projects.html [L]
+  RewriteRule ^projects/completed/?$ completed-projects.html [L]
+  RewriteRule ^projects/?$ completed-projects.html [L]
+  RewriteRule ^strengths-services/?$ strengths-services.html [L]
+  RewriteRule ^services/?$ strengths-services.html [L]
+  RewriteRule ^about/?$ about.html [L]
+  RewriteRule ^gallery/?$ gallery.html [L]
+  RewriteRule ^contact/?$ contact.html [L]
+  RewriteRule ^privacy/?$ privacy.html [L]
+  RewriteRule ^terms/?$ terms.html [L]
+
+  # Automatically resolve extensionless URLs to .html (e.g. /about -> /about.html)
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([^/]+)/?$ $1.html [L]
 </IfModule>
-
