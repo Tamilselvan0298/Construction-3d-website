@@ -25,7 +25,6 @@ dist-ssr
 
 # Scrape and audit scratch files
 downloaded_index.html
-completed-projects.html
 kp-*
 audit_live.cjs
 compare_header.cjs
