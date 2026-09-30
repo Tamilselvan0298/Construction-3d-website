@@ -21,6 +21,7 @@ export default function KPHero({ onStartProject }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const isMobile = window.innerWidth <= 768;
+    const total = isMobile ? MOBILE_FRAMES : DESKTOP_FRAMES;
     const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
     const folder = isMobile ? `${base}frames-mobile` : `${base}frames`;
     totalFramesRef.current = total;
@@ -28,20 +29,35 @@ export default function KPHero({ onStartProject }) {
     let loadedCount = 0;
     const imgs = [];
 
-    for (let i = 1; i <= total; i++) {
+    // Preload first frame immediately to render right away
+    const firstImg = new Image();
+    firstImg.src = `${folder}/ezgif-frame-001.jpg`;
+    firstImg.onload = () => {
+      loadedCount++;
+      setProgress(loadedCount / total);
+      setIsLoaded(true); // Allow rendering as soon as frame 1 is ready!
+    };
+    firstImg.onerror = () => {
+      loadedCount++;
+      setProgress(loadedCount / total);
+      setIsLoaded(true);
+    };
+    imgs.push(firstImg);
+
+    for (let i = 2; i <= total; i++) {
       const img = new Image();
       img.src = `${folder}/ezgif-frame-${String(i).padStart(3, '0')}.jpg`;
       img.onload = () => {
         loadedCount++;
         setProgress(loadedCount / total);
-        if (loadedCount === total) {
+        if (loadedCount >= total) {
           setIsLoaded(true);
         }
       };
       img.onerror = () => {
         loadedCount++;
         setProgress(loadedCount / total);
-        if (loadedCount === total) {
+        if (loadedCount >= total) {
           setIsLoaded(true);
         }
       };
@@ -73,8 +89,11 @@ export default function KPHero({ onStartProject }) {
     let scrollRatio = 0;
 
     const drawFrame = (frameIdx) => {
-      const img = imagesRef.current[frameIdx];
-      if (!img || !img.complete) return;
+      let img = imagesRef.current[frameIdx];
+      if (!img || !img.complete || !img.naturalWidth) {
+        img = imagesRef.current[0];
+      }
+      if (!img || !img.complete || !img.naturalWidth) return;
       const imgRatio = img.naturalWidth / img.naturalHeight;
       const canvasRatio = viewW / viewH;
       let drawW, drawH, offsetX, offsetY;
@@ -156,16 +175,13 @@ export default function KPHero({ onStartProject }) {
 
   return (
     <section ref={containerRef} className="relative w-full" style={{ height: '400vh' }}>
-      {/* LOADING EXPERIENCE PROGRESS SCREEN */}
-      {!isLoaded && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-paper">
-          <div className="mb-4 font-display text-xl text-ink">Loading Experience...</div>
-          <div className="h-1 w-48 overflow-hidden rounded-full bg-line">
-            <div
-              className="h-full bg-blue transition-all duration-200 ease-out"
-              style={{ width: `${progress * 100}%` }}
-            />
-          </div>
+      {/* TOP LOADING BAR (NON-BLOCKING) */}
+      {progress < 1 && (
+        <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-ink/10 pointer-events-none">
+          <div
+            className="h-full bg-blue transition-all duration-200 ease-out"
+            style={{ width: `${Math.round(progress * 100)}%` }}
+          />
         </div>
       )}
 
