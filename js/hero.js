@@ -27,12 +27,33 @@
   let scrollRatio = 0;
   let isTicking = false;
 
+  let lastDrawnIdx = -1;
+
   function drawFrame(frameIdx) {
+    frameIdx = Math.max(0, Math.min(total - 1, frameIdx));
+
     let img = images[frameIdx];
+
+    // If requested frame is not loaded yet, find the nearest loaded frame (search backwards first, then forwards)
     if (!img || !img.complete || !img.naturalWidth) {
-      img = images[0]; // Fallback to first loaded frame
+      for (let k = frameIdx - 1; k >= 0; k--) {
+        if (images[k] && images[k].complete && images[k].naturalWidth) {
+          img = images[k];
+          break;
+        }
+      }
+    }
+    if (!img || !img.complete || !img.naturalWidth) {
+      for (let k = frameIdx + 1; k < total; k++) {
+        if (images[k] && images[k].complete && images[k].naturalWidth) {
+          img = images[k];
+          break;
+        }
+      }
     }
     if (!img || !img.complete || !img.naturalWidth) return;
+
+    lastDrawnIdx = frameIdx;
 
     const imgRatio = img.naturalWidth / img.naturalHeight;
     const canvasRatio = viewW / viewH;
@@ -93,12 +114,16 @@
 
       // APEX CONSTRUCTIONS watermark reveal overlay
       if (watermarkRef) {
-        const showWatermark = frameIdx >= 105 && frameIdx < 119;
+        const showWatermark = frameIdx >= 105;
         watermarkRef.style.opacity = showWatermark ? '1' : '0';
       }
 
       isTicking = false;
     });
+  }
+
+  function getCurrentTargetFrameIdx() {
+    return Math.min(total - 1, Math.max(0, Math.floor(scrollRatio * total)));
   }
 
   function updateProgress() {
@@ -119,7 +144,8 @@
     loadedCount++;
     updateProgress();
     handleResize();
-    drawFrame(0);
+    const targetIdx = getCurrentTargetFrameIdx();
+    drawFrame(targetIdx);
   };
   firstImg.onerror = () => {
     loadedCount++;
@@ -128,14 +154,20 @@
   };
   images.push(firstImg);
 
-  // Preload remaining frames
+  // Preload remaining frames with automatic canvas update
   for (let i = 2; i <= total; i++) {
+    const frameIndex = i - 1;
     const img = new Image();
     const frameNum = String(i).padStart(3, '0');
     img.src = `${folder}/ezgif-frame-${frameNum}.jpg`;
     img.onload = () => {
       loadedCount++;
       updateProgress();
+      // If the current scroll position wants this frame (or near it), redraw immediately!
+      const currentTarget = getCurrentTargetFrameIdx();
+      if (Math.abs(currentTarget - frameIndex) <= Math.abs(currentTarget - lastDrawnIdx)) {
+        drawFrame(currentTarget);
+      }
     };
     img.onerror = () => {
       loadedCount++;

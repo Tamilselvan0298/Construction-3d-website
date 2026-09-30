@@ -88,12 +88,34 @@ export default function KPHero({ onStartProject }) {
     let viewH = 0;
     let scrollRatio = 0;
 
+    let lastDrawnIdx = -1;
+
     const drawFrame = (frameIdx) => {
+      const total = totalFramesRef.current;
+      frameIdx = Math.max(0, Math.min(total - 1, frameIdx));
       let img = imagesRef.current[frameIdx];
+
+      // If requested frame is not ready, find nearest loaded frame (search backwards first, then forwards)
       if (!img || !img.complete || !img.naturalWidth) {
-        img = imagesRef.current[0];
+        for (let k = frameIdx - 1; k >= 0; k--) {
+          if (imagesRef.current[k] && imagesRef.current[k].complete && imagesRef.current[k].naturalWidth) {
+            img = imagesRef.current[k];
+            break;
+          }
+        }
+      }
+      if (!img || !img.complete || !img.naturalWidth) {
+        for (let k = frameIdx + 1; k < total; k++) {
+          if (imagesRef.current[k] && imagesRef.current[k].complete && imagesRef.current[k].naturalWidth) {
+            img = imagesRef.current[k];
+            break;
+          }
+        }
       }
       if (!img || !img.complete || !img.naturalWidth) return;
+
+      lastDrawnIdx = frameIdx;
+
       const imgRatio = img.naturalWidth / img.naturalHeight;
       const canvasRatio = viewW / viewH;
       let drawW, drawH, offsetX, offsetY;
@@ -154,7 +176,7 @@ export default function KPHero({ onStartProject }) {
 
         // APEX CONSTRUCTIONS watermark reveal overlay
         if (watermarkRef.current) {
-          const showWatermark = frameIdx >= 105 && frameIdx < 119;
+          const showWatermark = frameIdx >= 105;
           watermarkRef.current.style.opacity = showWatermark ? '1' : '0';
         }
 
